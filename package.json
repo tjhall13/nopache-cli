@@ -1,0 +1,29 @@
+{
+  "name": "nopache-cli",
+  "version": "0.0.1",
+  "description": "The nopache command line interface.",
+  "main": "nopache-cli.js",
+  "dependencies": {
+    "nopache": "^0.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tjhall13/nopache-cli.git"
+  },
+  "keywords": [
+    "nopache",
+    "apache",
+    "command",
+    "line",
+    "interface"
+  ],
+  "author": "Trevor Hall",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tjhall13/nopache-cli/issues"
+  }
+}
