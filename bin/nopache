@@ -1,0 +1,89 @@
+#!/usr/bin/env node
+
+'use strict';
+
+process.title = 'nopache';
+
+var path = require('path');
+var fs = require('fs');
+
+var resolve = require('resolve').sync;
+
+var info = require('../lib/info');
+var options = require('../lib/cli').options;
+
+var basedir = process.cwd();
+var nopache_path;
+
+if(options.version) {
+    info.version();
+}
+
+if(options.help) {
+    info.help();
+}
+
+try {
+    nopache_path = resolve('nopache', { basedir: basedir });
+} catch(e) {
+    if(!nopache_path) {
+        info.fatal('Unable to find local nopache.', 1);
+    }
+}
+
+var nopache = require(nopache_path);
+
+var config = { };
+
+if(options.config) {
+    if(fs.existsSync(options.config)) {
+        config = JSON.parse(fs.readFileSync(options.config));
+    } else {
+        console.error('Nopache configuration file cannot be found: ' + options.config);
+        console.log('Using defaults...');
+    }
+}
+
+// Legacy naming convention support
+if(!nopache.NopacheServer) {
+    nopache.NopacheServer = nopache.nopache;
+}
+
+// Legacy default configuration support
+if(!nopache.config) {
+    nopache.config = function(config) {
+        var defaults = {
+            base: '.',
+            port: 2400
+        };
+        
+        // Integrate the loaded config options into the configuration
+        for(var option in config) {
+            defaults[option] = config[option];
+        }
+        return defaults;
+    }
+}
+
+// Legacy interface support
+if(!nopache.cli) {
+    nopache.cli = function(config) {
+        var NopacheServer = nopache.NopacheServer;
+        var server = new NopacheServer(config.base, config.port);
+        server.listen();
+    }
+}
+
+// Integrate the command line options into the configuration
+if(options.base) {
+    config.base = options.base;
+}
+if(options.port) {
+    config.port = options.port;
+}
+
+// Integrate default options into configuration
+config = nopache.config(config);
+
+console.log('Listening on ' + config.port + '...');
+nopache.cli(config);
