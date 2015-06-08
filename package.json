@@ -1,8 +1,9 @@
 {
   "name": "nopache-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The nopache command line interface.",
   "main": "/bin/nopache",
+  "preferGlobal": "true",
   "dependencies": {
     "nopt": "~1.0.10",
     "resolve": "~0.3.1"
