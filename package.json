@@ -10,7 +10,7 @@
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-contrib-jshint": "~0.11.2",
-    "nopache": "0.0.1"
+    "nopache": "~0.0.2"
   },
   "scripts": {
     "test": "test"
