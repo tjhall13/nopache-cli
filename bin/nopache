@@ -62,7 +62,7 @@ if(!nopache.config) {
             defaults[option] = config[option];
         }
         return defaults;
-    }
+    };
 }
 
 // Legacy interface support
@@ -71,7 +71,7 @@ if(!nopache.cli) {
         var NopacheServer = nopache.NopacheServer;
         var server = new NopacheServer(config.base, config.port);
         server.listen();
-    }
+    };
 }
 
 // Integrate the command line options into the configuration
