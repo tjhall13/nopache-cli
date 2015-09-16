@@ -23,25 +23,56 @@ if(options.help) {
     info.help();
 }
 
+var nopache;
+
 try {
     nopache_path = resolve('nopache', { basedir: basedir });
+    nopache = require(nopache_path);
 } catch(e) {
     if(!nopache_path) {
+        nopache = require('nopache');
+    } else {
         info.fatal('Unable to find local nopache.', 1);
     }
 }
 
-var nopache = require(nopache_path);
-
 var config = { };
 
-if(options.config) {
-    if(fs.existsSync(options.config)) {
-        config = JSON.parse(fs.readFileSync(options.config));
-    } else {
-        console.error('Nopache configuration file cannot be found: ' + options.config);
-        console.log('Using defaults...');
+var given_config = false;
+
+if(!options.config) {
+    options.config = path.join(basedir, 'nopache.json');
+} else {
+    given_config = true;
+}
+
+if(fs.existsSync(options.config)) {
+    config = JSON.parse(fs.readFileSync(options.config));
+    switch(typeof config.php) {
+        case 'string':
+            switch(path.extname(config.php)) {
+                case '.js':
+                case '.json':
+                    config.php = require(path.join(basedir, config.php));
+                    break;
+                default:
+                    console.log('Invalid config option for php');
+                    config.php = false;
+                    break;
+            }
+            break;
+        default:
+            console.log('Invalid config option for php');
+        case 'undefined':
+            config.php = false;
+        case 'object':
+            break;
     }
+} else {
+    if(given_config) {
+        console.error('Nopache configuration file cannot be found: ' + options.config);
+    }
+    console.log('Using defaults...');
 }
 
 // Legacy naming convention support

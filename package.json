@@ -1,6 +1,6 @@
 {
   "name": "nopache-cli",
-  "version": "0.0.4",
+  "version": "0.1.4",
   "description": "The nopache command line interface.",
   "main": "/bin/nopache",
   "preferGlobal": "true",
@@ -8,13 +8,13 @@
     "nopache": "bin/nopache"
   },
   "dependencies": {
-    "nopt": "~1.0.10",
-    "resolve": "~0.3.1"
+    "nopache": "0.1.4",
+    "nopt": "^1.0.10",
+    "resolve": "^0.3.1"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
-    "grunt-contrib-jshint": "~0.11.2",
-    "nopache": "~0.0.3"
+    "grunt-contrib-jshint": "~0.11.2"
   },
   "scripts": {
     "test": "test"
