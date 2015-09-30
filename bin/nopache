@@ -37,6 +37,7 @@ try {
 }
 
 var config = { };
+var mods = { };
 
 var given_config = false;
 
@@ -48,25 +49,9 @@ if(!options.config) {
 
 if(fs.existsSync(options.config)) {
     config = JSON.parse(fs.readFileSync(options.config));
-    switch(typeof config.php) {
-        case 'string':
-            switch(path.extname(config.php)) {
-                case '.js':
-                case '.json':
-                    config.php = require(path.join(basedir, config.php));
-                    break;
-                default:
-                    console.log('Invalid config option for php');
-                    config.php = false;
-                    break;
-            }
-            break;
-        default:
-            console.log('Invalid config option for php');
-        case 'undefined':
-            config.php = false;
-        case 'object':
-            break;
+    if(config.mods) {
+        mods = config.mods;
+        delete config.mods;
     }
 } else {
     if(given_config) {
@@ -117,4 +102,4 @@ if(options.port) {
 config = nopache.config(config);
 
 console.log('Listening on ' + config.port + '...');
-nopache.cli(config);
+nopache.cli(config, mods);
