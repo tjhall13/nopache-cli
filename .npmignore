@@ -1,4 +1,4 @@
 Gruntfile.js
-node_modules/*
 .git*
-npm-debug.log
+.npm*
+npm*
